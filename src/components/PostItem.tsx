@@ -33,7 +33,6 @@ export default function PostItem({ post }: PostItemProps) {
 
   async function handleOnClick() {
     openModal();
-    console.log('Postagem clicada:', post.id);
     const comments = await getPostComments(post.id);
     setComments(comments);
   }
