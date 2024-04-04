@@ -26,7 +26,7 @@ export default function Main() {
     };
 
     fetchPosts();
-  }, []);
+  }, [baseUrl]);
 
   if (loading) {
     return (
