@@ -1,9 +1,9 @@
+import NavBar from './components/Navbar';
+
 function App() {
   return (
     <>
-      <div>
-        <h1>Lista de Postagens</h1>
-      </div>
+      <NavBar />
     </>
   );
 }
