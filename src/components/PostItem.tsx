@@ -5,16 +5,17 @@ import Modal from 'react-modal';
 import { Comment } from '../types/comment';
 import CloseIcon from './CloseIcon';
 import CommentsList from './CommentsList';
+import useModal from '../hooks/useModal';
 
 export type PostItemProps = {
   post: Post;
 };
 
 export default function PostItem({ post }: PostItemProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [commentsError, setCommentsError] = useState('');
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   console.log('comments', comments);
 
@@ -34,7 +35,7 @@ export default function PostItem({ post }: PostItemProps) {
   }
 
   async function handleOnClick() {
-    setIsModalOpen(true);
+    openModal();
     console.log('Postagem clicada:', post.id);
     const comments = await getPostComments(post.id);
     setComments(comments);
@@ -44,7 +45,7 @@ export default function PostItem({ post }: PostItemProps) {
     <>
       <Modal
         isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
+        onRequestClose={() => closeModal()}
         style={{
           content: {
             height: '70vh',
@@ -59,7 +60,7 @@ export default function PostItem({ post }: PostItemProps) {
           <div className="sticky top-0 bg-white h-16 overflow-hidden pt-3 pl-5">
             <div className="flex justify-between pr-8">
               <h1 className="font-bold text-2xl">Comentários:</h1>
-              <button onClick={() => setIsModalOpen(false)}>
+              <button onClick={() => closeModal()}>
                 <CloseIcon />
               </button>
             </div>
