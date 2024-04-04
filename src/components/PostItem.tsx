@@ -8,7 +8,7 @@ export type PostItemProps = {
 export default function PostItem({ post }: PostItemProps) {
   return (
     <div className="flex bg-white rounded-lg p-6 mb-5 space-x-7 items-center">
-      <div>#{post.id}</div>
+      <div className="min-w-8">#{post.id}</div>
       <div className="flex-col flex-grow">
         <div className="font-bold mb-3">{post.title}</div>
         <div>{post.body}</div>
