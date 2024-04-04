@@ -1,4 +1,4 @@
-import Main from './components/Main';
+import Main from './views/Main';
 import NavBar from './components/Navbar';
 
 function App() {
