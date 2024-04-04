@@ -8,14 +8,14 @@ export default function Main() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
   useEffect(() => {
     setError('');
     setLoading(true);
     const fetchPosts = async () => {
       try {
-        const response = await fetch(
-          'https://jsonplaceholder.typicode.com/posts'
-        );
+        const response = await fetch(`${baseUrl}/posts`);
         const data = await response.json();
         setPosts(data);
         setLoading(false);
