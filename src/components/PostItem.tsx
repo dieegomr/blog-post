@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Post } from '../types/post';
 import TrashIcon from './TrashIcon';
-import Modal from 'react-modal';
 import { Comment } from '../types/comment';
-import CloseIcon from './CloseIcon';
 import CommentsList from './CommentsList';
 import useModal from '../hooks/useModal';
+import CustomModal from './CustomModal';
 
 export type PostItemProps = {
   post: Post;
@@ -41,28 +40,13 @@ export default function PostItem({ post }: PostItemProps) {
 
   return (
     <>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={() => closeModal()}
-        style={{
-          content: {
-            height: '70vh',
-            width: '60vw',
-            margin: 'auto',
-            padding: 0,
-            backgroundColor: '#F5F5F5',
-          },
-        }}
+      <CustomModal
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        title="Comentários:"
+        customWidth="60vw"
       >
-        <div className="flex-col">
-          <div className="sticky top-0 bg-white h-16 overflow-hidden pt-3 pl-5">
-            <div className="flex justify-between pr-8">
-              <h1 className="font-bold text-2xl">Comentários:</h1>
-              <button onClick={() => closeModal()}>
-                <CloseIcon />
-              </button>
-            </div>
-          </div>
+        <>
           {!isLoadingComments && !commentsError && (
             <CommentsList comments={comments} />
           )}
@@ -76,8 +60,8 @@ export default function PostItem({ post }: PostItemProps) {
               <p>{commentsError}</p>
             </div>
           )}
-        </div>
-      </Modal>
+        </>
+      </CustomModal>
       <button
         onClick={handleOnClick}
         className="flex bg-white hover:bg-slate-50 shadow-md rounded-lg p-6 mb-5 space-x-7 items-center text-left"
