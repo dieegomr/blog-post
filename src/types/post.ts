@@ -1,6 +1,9 @@
-export type Post = {
-  userId: number;
-  id: number;
+export type NewPost = {
   title: string;
   body: string;
+};
+
+export type Post = NewPost & {
+  userId: number;
+  id: number;
 };

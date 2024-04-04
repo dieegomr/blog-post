@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Post } from '../types/post';
 import PostList from '../components/PostList';
 import MessageCard from '../components/MessageCard';
 import Modal from 'react-modal';
 import useModal from '../hooks/useModal';
 import CloseIcon from '../components/CloseIcon';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import usePosts from '../hooks/usePosts';
 
 type FormFields = {
   title: string;
@@ -13,66 +12,19 @@ type FormFields = {
 };
 
 export default function Main() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const { isModalOpen, openModal, closeModal } = useModal();
   const { register, handleSubmit, formState, reset } = useForm<FormFields>();
+  const { posts, isFetching, fetchError, isSubmitting, addPost } = usePosts();
 
   const titlesArray = posts.map((post) => post.title);
 
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
   const onSubmit: SubmitHandler<FormFields> = async (newPost: FormFields) => {
-    try {
-      setLoadingSubmit(true);
-      const response = await fetch(`${baseUrl}/posts`, {
-        method: 'POST',
-        body: JSON.stringify({
-          title: newPost.title,
-          body: newPost.body,
-          userId: 1,
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-
-      const addedPost = await response.json();
-
-      setPosts((prevPosts) => [addedPost, ...prevPosts]);
-
-      setLoadingSubmit(false);
-
-      closeModal();
-
-      reset();
-    } catch (error) {
-      setError('Não foi possível adicionar a postagem.');
-      setLoadingSubmit(false);
-    }
+    await addPost(newPost);
+    closeModal();
+    reset();
   };
 
-  useEffect(() => {
-    setError('');
-    setLoading(true);
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/posts`);
-        const data = await response.json();
-        setPosts(data);
-        setLoading(false);
-      } catch (error) {
-        setError('Algo inesperado aconteceu. Tente novamente mais tarde.');
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, [baseUrl]);
-
-  if (loading) {
+  if (isFetching) {
     return (
       <div className="flex justify-center items-center h-screen">
         <p>Carregando...</p>
@@ -109,7 +61,7 @@ export default function Main() {
               className="flex flex-col w-full px-20 items-center pt-6"
               onSubmit={handleSubmit(onSubmit)}
             >
-              {!loadingSubmit ? (
+              {!isSubmitting ? (
                 <>
                   <input
                     id="title"
@@ -160,9 +112,9 @@ export default function Main() {
               )}
               <div className="flex justify-end w-full">
                 <button
-                  disabled={loadingSubmit}
+                  disabled={isSubmitting}
                   className={`bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded ${
-                    loadingSubmit ? 'opacity-50 cursor-not-allowed' : ''
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >
                   Adicionar
@@ -179,8 +131,8 @@ export default function Main() {
         >
           + Nova Postagem
         </button>
-        {!error && <PostList posts={posts} />}
-        {error && <MessageCard message={error} />}
+        {!fetchError && <PostList posts={posts} />}
+        {fetchError && <MessageCard message={fetchError} />}
       </div>
     </>
   );
