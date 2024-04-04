@@ -17,8 +17,6 @@ export default function PostItem({ post }: PostItemProps) {
   const [commentsError, setCommentsError] = useState('');
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  console.log('comments', comments);
-
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   async function getPostComments(id: number) {
