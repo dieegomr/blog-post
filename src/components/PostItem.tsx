@@ -53,10 +53,14 @@ export default function PostItem({ post }: PostItemProps) {
           ) : (
             <div className="flex flex-col p-10 items-center h-72">
               <div className="flex items-center h-52">
-                <p className="text-red-600 ">
-                  Atenção! Ao excluir esta postagem os comentários também serão
-                  excluídos
-                </p>
+                {isDeleting ? (
+                  <p>Excluindo...</p>
+                ) : (
+                  <p className="text-red-600 ">
+                    Atenção! Ao excluir esta postagem os comentários também
+                    serão excluídos
+                  </p>
+                )}
               </div>
               <div>
                 <button
