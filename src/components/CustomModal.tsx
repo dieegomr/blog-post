@@ -16,8 +16,8 @@ export default function CustomModal({
   closeModal,
   children,
   title,
-  customWidth = '40vw',
-  customHeight = '50vh',
+  customWidth = '60%',
+  customHeight = '25rem',
   footer = null,
 }: CustomModalProps) {
   return (
