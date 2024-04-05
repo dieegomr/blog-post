@@ -1,6 +1,5 @@
 import Modal from 'react-modal';
 import CloseIcon from './CloseIcon';
-import CommentsForm from './CommentsForm';
 
 type CustomModalProps = {
   isModalOpen: boolean;
