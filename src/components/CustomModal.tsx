@@ -38,8 +38,11 @@ export default function CustomModal({
       <div className="flex-col">
         <div className="sticky top-0 bg-white h-16 overflow-hidden pt-3 pl-5 ">
           <div className="flex justify-between pr-8">
-            <h1 className="font-bold text-2xl">{title}</h1>
-            <button onClick={() => closeModal()}>
+            <h1 className="font-bold text-2xl rounded-md">{title}</h1>
+            <button
+              className="hover:bg-slate-200 p-1"
+              onClick={() => closeModal()}
+            >
               <CloseIcon />
             </button>
           </div>
