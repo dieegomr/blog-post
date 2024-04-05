@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Comment } from '../types/comment';
+import { useCommentsStore } from '../store/commentsStore';
 
 const useComments = () => {
-  const [comments, setComments] = useState<Comment[]>([]);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [commentsError, setCommentsError] = useState('');
+
+  const { comments, setComments } = useCommentsStore();
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
