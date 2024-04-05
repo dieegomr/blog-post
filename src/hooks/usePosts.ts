@@ -39,14 +39,12 @@ const usePosts = () => {
   }
 
   async function handleDeletePost(postId: number) {
-    console.log('postId', postId);
     try {
       setIsDeleting(true);
       await fetch(`${baseUrl}/posts/${postId}`, {
         method: 'DELETE',
       });
 
-      // setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
       deletePost(postId);
 
       setIsDeleting(false);
