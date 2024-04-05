@@ -1,18 +1,10 @@
-import { Comment } from '../types/comment';
+import useComments from '../hooks/useComments';
 import CommentItem from './CommentItem';
 import MessageCard from './MessageCard';
 
-type CommentsListProps = {
-  comments: Comment[];
-  isLoadingComments: boolean;
-  commentsError: string;
-};
+export default function CommentsList() {
+  const { comments, isLoadingComments, commentsError } = useComments();
 
-export default function CommentsList({
-  comments,
-  commentsError,
-  isLoadingComments,
-}: CommentsListProps) {
   return (
     <>
       {!isLoadingComments && !commentsError && (

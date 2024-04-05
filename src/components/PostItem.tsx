@@ -1,45 +1,27 @@
 import { useState } from 'react';
 import { Post } from '../types/post';
 import TrashIcon from './TrashIcon';
-import { Comment } from '../types/comment';
 import CommentsList from './CommentsList';
 import useModal from '../hooks/useModal';
 import CustomModal from './CustomModal';
 import usePosts from '../hooks/usePosts';
+import useComments from '../hooks/useComments';
 
 export type PostItemProps = {
   post: Post;
 };
 
 export default function PostItem({ post }: PostItemProps) {
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [isLoadingComments, setIsLoadingComments] = useState(false);
-  const [commentsError, setCommentsError] = useState('');
   const [currentPostId, setCurrentPostId] = useState<number | null>(null);
   const [showComments, setShowComments] = useState(false);
 
   const { isModalOpen, openModal, closeModal } = useModal();
   const { handleDeletePost, isDeleting } = usePosts();
-
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
-  async function getPostComments(id: number) {
-    try {
-      setIsLoadingComments(true);
-      const response = await fetch(`${baseUrl}/comments?postId=${id}`);
-      setIsLoadingComments(false);
-      return await response.json();
-    } catch (error) {
-      setCommentsError(
-        'Algo inesperado aconteceu. Tente novamente mais tarde.'
-      );
-    }
-  }
+  const { getPostComments } = useComments();
 
   async function handleShowComments() {
     setShowComments(true);
-    const comments = await getPostComments(post.id);
-    setComments(comments);
+    await getPostComments(post.id);
     openModal();
   }
 
@@ -64,11 +46,7 @@ export default function PostItem({ post }: PostItemProps) {
       >
         <>
           {showComments ? (
-            <CommentsList
-              comments={comments}
-              isLoadingComments={isLoadingComments}
-              commentsError={commentsError}
-            />
+            <CommentsList />
           ) : (
             <div className="flex flex-col p-10 items-center h-72">
               <div className="flex items-center h-52">
