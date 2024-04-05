@@ -1,6 +1,5 @@
 import useComments from '../hooks/useComments';
 import CommentItem from './CommentItem';
-import MessageCard from './MessageCard';
 
 export default function CommentsList() {
   const { comments, isLoadingComments, commentsError } = useComments();
@@ -14,7 +13,9 @@ export default function CommentsList() {
               <CommentItem key={comment.id} comment={comment} />
             ))
           ) : (
-            <MessageCard message={'Essa postagem não possui comentários'} />
+            <div className="flex h-96 justify-center items-center rounded-lg">
+              <p>Essa postagem não possui comentários</p>
+            </div>
           )}
         </div>
       )}
