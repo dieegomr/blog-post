@@ -55,13 +55,15 @@ export default function Main() {
           <PostsForm />
         </div>
       </CustomModal>
-      <div className="flex-col justify-center px-40 py-10">
-        <button
-          onClick={() => openModal()}
-          className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded mb-10"
-        >
-          + Nova Postagem
-        </button>
+      <div className="flex-col justify-center items-center m-auto px-10 py-10">
+        <div className="m-auto max-w-screen-md">
+          <button
+            onClick={() => openModal()}
+            className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded mb-6"
+          >
+            + Nova Postagem
+          </button>
+        </div>
         {!fetchError && <PostList />}
         {fetchError && <MessageCard message={fetchError} />}
       </div>

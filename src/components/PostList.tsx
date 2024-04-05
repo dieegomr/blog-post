@@ -8,7 +8,7 @@ export default function PostList() {
   const sortedPosts = sortPostsByTitle(posts);
 
   return (
-    <div className="flex-col items-center justify-center">
+    <div className="flex-col items-center m-auto max-w-screen-md justify-center">
       {sortedPosts.length > 0 ? (
         sortedPosts.map((post) => <PostItem key={post.id} post={post} />)
       ) : (
