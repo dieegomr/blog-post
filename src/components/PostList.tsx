@@ -10,7 +10,7 @@ export default function PostList() {
   return (
     <div className="flex-col items-center justify-center">
       {sortedPosts.length > 0 ? (
-        sortedPosts.map((post) => <PostItem post={post} />)
+        sortedPosts.map((post) => <PostItem key={post.id} post={post} />)
       ) : (
         <MessageCard message={'Você ainda não possui postagens'} />
       )}
