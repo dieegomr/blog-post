@@ -38,8 +38,8 @@ export default function PostItem({ post }: PostItemProps) {
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         title={showComments ? 'Comentários:' : 'Excluir postagem?'}
-        customWidth={showComments ? '40vw' : '45vw'}
-        customHeight={showComments ? '85vh' : '50vh'}
+        customWidth={showComments ? '60%' : '60%'}
+        customHeight={showComments ? '45rem' : '25rem'}
         footer={showComments && <CommentsForm />}
       >
         <>

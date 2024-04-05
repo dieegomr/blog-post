@@ -24,14 +24,14 @@ export default function CommentsForm() {
 
   return (
     <form
-      className="flex flex-col w-full h-screen px-32 items-center pt-6 bg-gray-200 rounded-t-lg shadow-md"
+      className="flex flex-col w-full h-screen px-16 m-auto items-center pt-6 bg-gray-200 rounded-t-lg shadow-md"
       onSubmit={handleSubmit(onSubmit)}
     >
       {!isSubmitting ? (
         <>
           <input
             id="title"
-            className="p-2 w-full h-8 text-sm shadow-sm outline-none"
+            className="p-2 lg:w-2/3 sm:w-full h-8 text-sm shadow-sm outline-none"
             placeholder="Título"
             {...register('title', {
               required: 'Título é obrigatório',
@@ -45,7 +45,7 @@ export default function CommentsForm() {
             )}
           </div>
           <textarea
-            className="p-2 w-full text-sm h-16 shadow-sm outline-none"
+            className="p-2 lg:w-2/3 sm:w-full text-sm h-16 shadow-sm outline-none"
             placeholder="Conteúdo"
             {...register('body', {
               required: 'Conteúdo é obrigatório',
@@ -69,7 +69,7 @@ export default function CommentsForm() {
           <p>Adicionando...</p>
         </div>
       )}
-      <div className="flex justify-end w-full">
+      <div className="flex justify-end lg:w-2/3">
         <button
           disabled={isSubmitting}
           className={`bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded ${
