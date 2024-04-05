@@ -92,7 +92,7 @@ export default function PostItem({ post }: PostItemProps) {
                   onClick={() => {
                     onConfirmDelete(currentPostId as number);
                   }}
-                  className={`bg-red-600 text-white px-4 py-2 rounded ml-5 min-w-28 ${
+                  className={`bg-cyan-600 text-white px-4 py-2 rounded ml-5 min-w-28 ${
                     isDeleting ? 'cursor-not-allowed opacity-50' : ''
                   }`}
                 >
