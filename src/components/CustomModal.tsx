@@ -35,7 +35,7 @@ export default function CustomModal({
       }}
     >
       <div className="flex-col">
-        <div className="sticky top-0 bg-white h-16 overflow-hidden pt-3 pl-5 ">
+        <div className="sticky top-0 bg-white h-16 overflow-hidden pt-3 pl-5 shadow-sm">
           <div className="flex justify-between pr-8">
             <h1 className="font-bold text-2xl rounded-md">{title}</h1>
             <button
@@ -48,7 +48,7 @@ export default function CustomModal({
         </div>
         {children}
         {footer && (
-          <footer className="sticky bottom-0 bg-white h-56 overflow-hidden">
+          <footer className="sticky bottom-0 h-56 overflow-hidden">
             {footer}
           </footer>
         )}

@@ -1,7 +1,7 @@
 export default function NavBar() {
   return (
-    <div className="bg-white h-14 shadow-md flex justify-center items-center">
-      <h1 className="text-16">Lista de Postagens</h1>
+    <div className="bg-slate-200 h-14 shadow-md flex justify-center items-center">
+      <h1 className="text-lg font-bold text-cyan-600">LISTA DE POSTAGENS</h1>
     </div>
   );
 }

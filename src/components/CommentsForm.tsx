@@ -24,7 +24,7 @@ export default function CommentsForm() {
 
   return (
     <form
-      className="flex flex-col w-full h-screen px-16 m-auto items-center pt-6 bg-gray-200 rounded-t-lg shadow-md"
+      className="flex flex-col w-full h-screen px-16 m-auto items-center pt-6 bg-slate-200 rounded-t-3xl shadow-md"
       onSubmit={handleSubmit(onSubmit)}
     >
       {!isSubmitting ? (
@@ -37,7 +37,7 @@ export default function CommentsForm() {
               required: 'Título é obrigatório',
             })}
           />
-          <div className="flex justify-start w-full h-4 my-1">
+          <div className="flex justify-start lg:w-2/3 sm:w-full w-full h-4 my-1">
             {formState.errors.title && (
               <span className="text-red-500 text-xs">
                 {formState.errors.title.message}
@@ -56,7 +56,7 @@ export default function CommentsForm() {
             })}
             id="body"
           ></textarea>
-          <div className="flex justify-start w-full h-4 pt-1 mb-2">
+          <div className="flex justify-start w-full lg:w-2/3 sm:w-full h-4 pt-1 mb-2">
             {formState.errors.body && (
               <span className="text-red-500 text-xs">
                 {formState.errors.body.message}
