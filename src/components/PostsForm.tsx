@@ -1,26 +1,23 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import usePosts from '../hooks/usePosts';
-import { Post } from '../types/post';
 import useModal from '../hooks/useModal';
+import { usePostsStore } from '../store/postsStore';
 
 type FormFields = {
   title: string;
   body: string;
 };
 
-type PostsFormProps = {
-  posts: Post[];
-};
-
-export default function PostsForm({ posts }: PostsFormProps) {
+export default function PostsForm() {
   const { register, handleSubmit, formState, reset } = useForm<FormFields>();
-  const { addPost, isSubmitting } = usePosts();
+  const { handleAddPost, isSubmitting } = usePosts();
   const { closeModal } = useModal();
+  const { posts } = usePostsStore();
 
   const titlesArray = posts.map((post) => post.title);
 
   const onSubmit: SubmitHandler<FormFields> = async (newPost: FormFields) => {
-    await addPost(newPost);
+    await handleAddPost(newPost);
     closeModal();
     reset();
   };

@@ -19,7 +19,7 @@ export default function PostItem({ post }: PostItemProps) {
   const [showComments, setShowComments] = useState(false);
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { deletePost, isDeleting } = usePosts();
+  const { handleDeletePost, isDeleting } = usePosts();
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -43,14 +43,14 @@ export default function PostItem({ post }: PostItemProps) {
     openModal();
   }
 
-  async function handleDeletePost(postId: number) {
+  async function onDelete(postId: number) {
     setShowComments(false);
     setCurrentPostId(postId);
     openModal();
   }
 
-  async function onDeletePost(postId: number) {
-    await deletePost(postId);
+  async function onConfirm(postId: number) {
+    await handleDeletePost(postId);
     closeModal();
   }
 
@@ -90,7 +90,7 @@ export default function PostItem({ post }: PostItemProps) {
                 <button
                   disabled={isDeleting}
                   onClick={() => {
-                    onDeletePost(currentPostId as number);
+                    onConfirm(currentPostId as number);
                   }}
                   className={`bg-red-600 text-white px-4 py-2 rounded ml-5 min-w-28 ${
                     isDeleting ? 'cursor-not-allowed opacity-50' : ''
@@ -116,7 +116,7 @@ export default function PostItem({ post }: PostItemProps) {
         </button>
         <div className="flex flex-grow justify-end">
           <button
-            onClick={() => handleDeletePost(post.id)}
+            onClick={() => onDelete(post.id)}
             className="text-white px-4 py-2 rounded  hover:bg-slate-200"
           >
             <TrashIcon />

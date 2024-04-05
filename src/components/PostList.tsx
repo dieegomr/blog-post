@@ -1,13 +1,10 @@
-import { Post } from '../types/post';
+import { usePostsStore } from '../store/postsStore';
 import { sortPostsByTitle } from '../utils/sortPostsByTitle';
 import MessageCard from './MessageCard';
 import PostItem from './PostItem';
 
-type PostProps = {
-  posts: Post[];
-};
-
-export default function PostList({ posts }: PostProps) {
+export default function PostList() {
+  const { posts } = usePostsStore();
   const sortedPosts = sortPostsByTitle(posts);
 
   return (

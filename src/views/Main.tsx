@@ -1,13 +1,36 @@
 import PostList from '../components/PostList';
 import MessageCard from '../components/MessageCard';
 import useModal from '../hooks/useModal';
-import usePosts from '../hooks/usePosts';
 import PostsForm from '../components/PostsForm';
 import CustomModal from '../components/CustomModal';
+import { useEffect, useState } from 'react';
+import { usePostsStore } from '../store/postsStore';
 
 export default function Main() {
+  const [isFetching, setIsFetching] = useState(true);
+  const [fetchError, setFetchError] = useState('');
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { posts, isFetching, fetchError } = usePosts();
+  const { setPosts } = usePostsStore();
+
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+  useEffect(() => {
+    setFetchError('');
+    setIsFetching(true);
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/posts`);
+        const data = await response.json();
+        setPosts(data);
+        setIsFetching(false);
+      } catch (error) {
+        setFetchError('Algo inesperado aconteceu. Tente novamente mais tarde.');
+        setIsFetching(false);
+      }
+    };
+
+    fetchPosts();
+  }, [baseUrl, setPosts]);
 
   if (isFetching) {
     return (
@@ -25,7 +48,7 @@ export default function Main() {
         title="Criar nova postagem:"
       >
         <div className="flex flex-col justify-center items-center">
-          <PostsForm posts={posts} />
+          <PostsForm />
         </div>
       </CustomModal>
       <div className="flex-col justify-center px-40 py-10">
@@ -35,7 +58,7 @@ export default function Main() {
         >
           + Nova Postagem
         </button>
-        {!fetchError && <PostList posts={posts} />}
+        {!fetchError && <PostList />}
         {fetchError && <MessageCard message={fetchError} />}
       </div>
     </>

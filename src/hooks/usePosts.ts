@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import { NewPost, Post } from '../types/post';
+import { useState } from 'react';
+import { NewPost } from '../types/post';
+import { usePostsStore } from '../store/postsStore';
 
 const usePosts = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [fetchError, setFetchError] = useState('');
   const [submitError, setSubmitError] = useState('');
-  const [isFetching, setIsFetching] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const { addPost, deletePost } = usePostsStore();
+
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-  async function addPost(newPost: NewPost) {
+  async function handleAddPost(newPost: NewPost) {
     try {
       setIsSubmitting(true);
       const response = await fetch(`${baseUrl}/posts`, {
@@ -28,7 +28,7 @@ const usePosts = () => {
 
       const addedPost = await response.json();
 
-      setPosts((prevPosts) => [addedPost, ...prevPosts]);
+      addPost(addedPost);
 
       setIsSubmitting(false);
     } catch (error) {
@@ -37,25 +37,7 @@ const usePosts = () => {
     }
   }
 
-  useEffect(() => {
-    setFetchError('');
-    setIsFetching(true);
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/posts`);
-        const data = await response.json();
-        setPosts(data);
-        setIsFetching(false);
-      } catch (error) {
-        setFetchError('Algo inesperado aconteceu. Tente novamente mais tarde.');
-        setIsFetching(false);
-      }
-    };
-
-    fetchPosts();
-  }, [baseUrl]);
-
-  async function deletePost(postId: number) {
+  async function handleDeletePost(postId: number) {
     console.log('postId', postId);
     try {
       setIsDeleting(true);
@@ -63,7 +45,8 @@ const usePosts = () => {
         method: 'DELETE',
       });
 
-      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+      // setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+      deletePost(postId);
 
       setIsDeleting(false);
     } catch (error) {
@@ -73,14 +56,11 @@ const usePosts = () => {
   }
 
   return {
-    posts,
-    fetchError,
     submitError,
-    isFetching,
     isSubmitting,
     isDeleting,
-    addPost,
-    deletePost,
+    handleAddPost,
+    handleDeletePost,
   };
 };
 
