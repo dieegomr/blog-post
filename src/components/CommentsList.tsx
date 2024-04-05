@@ -8,7 +8,7 @@ export default function CommentsList() {
   return (
     <>
       {!isLoadingComments && !commentsError && (
-        <div className="flex-col pt-4 pr-10 pl-10 pb-10">
+        <div className="flex-col pt-4 px-20">
           {comments.length > 0 ? (
             comments.map((comment) => (
               <CommentItem key={comment.id} comment={comment} />

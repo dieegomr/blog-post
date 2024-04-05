@@ -1,12 +1,15 @@
 import Modal from 'react-modal';
 import CloseIcon from './CloseIcon';
+import CommentsForm from './CommentsForm';
 
 type CustomModalProps = {
   isModalOpen: boolean;
   closeModal: () => void;
   children: React.ReactNode;
   customWidth?: string;
+  customHeight?: string;
   title: string;
+  footer?: React.ReactNode;
 };
 
 export default function CustomModal({
@@ -15,6 +18,8 @@ export default function CustomModal({
   children,
   title,
   customWidth = '40vw',
+  customHeight = '50vh',
+  footer = null,
 }: CustomModalProps) {
   return (
     <Modal
@@ -22,7 +27,7 @@ export default function CustomModal({
       onRequestClose={() => closeModal()}
       style={{
         content: {
-          height: '50vh',
+          height: customHeight,
           width: customWidth,
           margin: 'auto',
           padding: 0,
@@ -40,6 +45,11 @@ export default function CustomModal({
           </div>
         </div>
         {children}
+        {footer && (
+          <footer className="sticky bottom-0 bg-white h-56 overflow-hidden">
+            {footer}
+          </footer>
+        )}
       </div>
     </Modal>
   );

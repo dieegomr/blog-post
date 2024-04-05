@@ -7,7 +7,8 @@ const usePosts = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const { addPost, deletePost } = usePostsStore();
+  const { addPost, deletePost, currentPostId, setCurrentPostId } =
+    usePostsStore();
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -56,9 +57,11 @@ const usePosts = () => {
   }
 
   return {
+    currentPostId,
     submitError,
     isSubmitting,
     isDeleting,
+    setCurrentPostId,
     handleAddPost,
     handleDeletePost,
   };

@@ -6,17 +6,18 @@ import useModal from '../hooks/useModal';
 import CustomModal from './CustomModal';
 import usePosts from '../hooks/usePosts';
 import useComments from '../hooks/useComments';
+import CommentsForm from './CommentsForm';
 
 export type PostItemProps = {
   post: Post;
 };
 
 export default function PostItem({ post }: PostItemProps) {
-  const [currentPostId, setCurrentPostId] = useState<number | null>(null);
   const [showComments, setShowComments] = useState(false);
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { handleDeletePost, isDeleting } = usePosts();
+  const { isDeleting, currentPostId, handleDeletePost, setCurrentPostId } =
+    usePosts();
   const { getPostComments } = useComments();
 
   async function handleShowComments() {
@@ -42,7 +43,9 @@ export default function PostItem({ post }: PostItemProps) {
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         title={showComments ? 'Comentários:' : 'Excluir postagem?'}
-        customWidth={showComments ? '60vw' : '45vw'}
+        customWidth={showComments ? '40vw' : '45vw'}
+        customHeight={showComments ? '85vh' : '50vh'}
+        footer={showComments && <CommentsForm />}
       >
         <>
           {showComments ? (
