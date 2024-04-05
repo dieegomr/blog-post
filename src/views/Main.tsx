@@ -1,15 +1,19 @@
 import PostList from '../components/PostList';
 import MessageCard from '../components/MessageCard';
-import useModal from '../hooks/useModal';
 import PostsForm from '../components/PostsForm';
 import CustomModal from '../components/CustomModal';
 import { useEffect, useState } from 'react';
 import { usePostsStore } from '../store/postsStore';
+import { useModalStore } from '../store/modalStore';
 
 export default function Main() {
   const [isFetching, setIsFetching] = useState(true);
   const [fetchError, setFetchError] = useState('');
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const {
+    isOpenNewPostModal,
+    closeNewPostModal: closeModal,
+    openNewPostModal: openModal,
+  } = useModalStore();
   const { setPosts } = usePostsStore();
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
@@ -44,7 +48,7 @@ export default function Main() {
     <>
       <CustomModal
         closeModal={closeModal}
-        isModalOpen={isModalOpen}
+        isModalOpen={isOpenNewPostModal}
         title="Criar nova postagem:"
       >
         <div className="flex flex-col justify-center items-center">

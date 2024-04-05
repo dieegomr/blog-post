@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import usePosts from '../hooks/usePosts';
-import useModal from '../hooks/useModal';
 import { usePostsStore } from '../store/postsStore';
+import { useModalStore } from '../store/modalStore';
 
 type FormFields = {
   title: string;
@@ -11,7 +11,7 @@ type FormFields = {
 export default function PostsForm() {
   const { register, handleSubmit, formState, reset } = useForm<FormFields>();
   const { handleAddPost, isSubmitting } = usePosts();
-  const { closeModal } = useModal();
+  const { closeNewPostModal: closeModal } = useModalStore();
   const { posts } = usePostsStore();
 
   const titlesArray = posts.map((post) => post.title);
