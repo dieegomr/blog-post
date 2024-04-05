@@ -7,6 +7,7 @@ import CustomModal from './CustomModal';
 import usePosts from '../hooks/usePosts';
 import useComments from '../hooks/useComments';
 import CommentsForm from './CommentsForm';
+import DeletePostConfirmation from './DeletePostConfirmation';
 
 export type PostItemProps = {
   post: Post;
@@ -16,9 +17,8 @@ export default function PostItem({ post }: PostItemProps) {
   const [showComments, setShowComments] = useState(false);
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { isDeleting, currentPostId, handleDeletePost, setCurrentPostId } =
-    usePosts();
   const { getPostComments } = useComments();
+  const { setCurrentPostId } = usePosts();
 
   async function handleShowComments() {
     setShowComments(true);
@@ -30,11 +30,6 @@ export default function PostItem({ post }: PostItemProps) {
     setShowComments(false);
     setCurrentPostId(postId);
     openModal();
-  }
-
-  async function onConfirmDelete(postId: number) {
-    await handleDeletePost(postId);
-    closeModal();
   }
 
   return (
@@ -51,40 +46,7 @@ export default function PostItem({ post }: PostItemProps) {
           {showComments ? (
             <CommentsList />
           ) : (
-            <div className="flex flex-col p-10 items-center h-72">
-              <div className="flex items-center h-52">
-                {isDeleting ? (
-                  <p>Excluindo...</p>
-                ) : (
-                  <p className="text-red-600 ">
-                    Atenção! Ao excluir esta postagem os comentários também
-                    serão excluídos
-                  </p>
-                )}
-              </div>
-              <div>
-                <button
-                  disabled={isDeleting}
-                  onClick={closeModal}
-                  className={`text-cyan-600 border border-cyan-600 px-4 py-2 rounded ml-5 min-w-28 ${
-                    isDeleting ? 'cursor-not-allowed opacity-50' : ''
-                  }`}
-                >
-                  Cancelar
-                </button>
-                <button
-                  disabled={isDeleting}
-                  onClick={() => {
-                    onConfirmDelete(currentPostId as number);
-                  }}
-                  className={`bg-cyan-600 text-white px-4 py-2 rounded ml-5 min-w-28 ${
-                    isDeleting ? 'cursor-not-allowed opacity-50' : ''
-                  }`}
-                >
-                  Excluir
-                </button>
-              </div>
-            </div>
+            <DeletePostConfirmation handleCancelDelete={closeModal} />
           )}
         </>
       </CustomModal>
