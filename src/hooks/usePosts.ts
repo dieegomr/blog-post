@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { NewPost, Post } from '../types/post';
 
-const useModal = () => {
+const usePosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [fetchError, setFetchError] = useState('');
   const [submitError, setSubmitError] = useState('');
   const [isFetching, setIsFetching] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -54,14 +55,33 @@ const useModal = () => {
     fetchPosts();
   }, [baseUrl]);
 
+  async function deletePost(postId: number) {
+    console.log('postId', postId);
+    try {
+      setIsDeleting(true);
+      await fetch(`${baseUrl}/posts/${postId}`, {
+        method: 'DELETE',
+      });
+
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+
+      setIsDeleting(false);
+    } catch (error) {
+      setSubmitError('Não foi possível excluir a postagem.');
+      setIsDeleting(false);
+    }
+  }
+
   return {
     posts,
     fetchError,
     submitError,
     isFetching,
     isSubmitting,
+    isDeleting,
     addPost,
+    deletePost,
   };
 };
 
-export default useModal;
+export default usePosts;
