@@ -49,7 +49,7 @@ export default function PostItem({ post }: PostItemProps) {
     openModal();
   }
 
-  async function onConfirm(postId: number) {
+  async function onConfirmDelete(postId: number) {
     await handleDeletePost(postId);
     closeModal();
   }
@@ -90,7 +90,7 @@ export default function PostItem({ post }: PostItemProps) {
                 <button
                   disabled={isDeleting}
                   onClick={() => {
-                    onConfirm(currentPostId as number);
+                    onConfirmDelete(currentPostId as number);
                   }}
                   className={`bg-red-600 text-white px-4 py-2 rounded ml-5 min-w-28 ${
                     isDeleting ? 'cursor-not-allowed opacity-50' : ''
